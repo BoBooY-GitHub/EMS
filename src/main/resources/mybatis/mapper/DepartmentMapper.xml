@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bobooy.ems.mapper.DepartmentMapper">
+    <select id="getDepartments" resultType="Department">
+        select * from department
+    </select>
+
+    <select id="getDepartmentById" resultType="Department" parameterType="Integer">
+        select * from department where id = #{id}
+    </select>
+</mapper>

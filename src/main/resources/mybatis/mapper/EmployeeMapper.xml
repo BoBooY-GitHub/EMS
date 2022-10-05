@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bobooy.ems.mapper.EmployeeMapper">
+    <insert id="save" parameterType="Employee">
+        insert into employee(`last_name`, `email`, `gender`, `department`, `birth`)
+        values (#{lastName}, #{email}, #{gender}, #{department.id}, #{birth})
+    </insert>
+
+    <select id="getAll" resultMap="EmployeeDepartment">
+        select e.id eid, e.last_Name eName, e.email email, e.gender gender,d.id did,e.birth birth, d.department_name dName
+        from employee e
+        join department d
+        on e.department = d.id
+    </select>
+
+    <select id="getEmployee" parameterType="int" resultMap="EmployeeDepartment">
+        select e.id eid, e.last_Name eName, e.email email, e.gender gender,d.id did,e.birth birth, d.department_name dName
+        from employee e
+                 join department d
+                      on e.department = d.id
+        where e.id = #{id}
+    </select>
+
+    <resultMap id="EmployeeDepartment" type="Employee">
+        <result property="id" column="eid"/>
+        <result property="lastName" column="eName"/>
+        <result property="email" column="email"/>
+        <result property="gender" column="gender"/>
+        <result property="birth" column="birth"/>
+        <association property="department" javaType="Department">
+            <result property="id" column="did"/>
+            <result property="departmentName" column="dName"/>
+        </association>
+    </resultMap>
+
+    <update id="updateEmployee" parameterType="Employee">
+       update employee set `last_name`=#{lastName},`email`=#{email},`gender`=#{gender},`department`=#{department.id},`birth`=#{birth} where `id` = #{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete from employee where `id` = #{id}
+    </delete>
+</mapper>
